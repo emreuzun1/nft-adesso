@@ -2,19 +2,21 @@
 
 This project is a NFT Minting dApp.
 
-```ruby
+```bash
     git clone https://github.com/emreuzun1/nft-adesso
     cd nft-adesso
     npm i
     npm start
 ```
 
+`If you have "Provider" error check for version of "ethers". It must be 5.7.2`
+
 ## For Hardhat Config (Optional)
 
 - Create a .env file (if not exist)
 - Set necessary key for hardhat.config
 
-  [!NOTE] You have to change
+ `You have to change the version of "ethers" to 6.0.0`
 
 - Compile the smart contract with `npx hardhat compile`
 - Deploy the smart contract to the sepolia network with `npx hardhat run scripts/deploy.js --network sepolia`
