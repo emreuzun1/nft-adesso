@@ -18,6 +18,7 @@ export const DataContextProvider = ({ children }) => {
     severity: "",
   });
 
+  // Try to reach wallet when user opens the website
   useEffect(() => {
     const connectWallet = async () => {
       const res = await connectWalletRequest();
@@ -30,6 +31,7 @@ export const DataContextProvider = ({ children }) => {
     walletListener();
   }, []);
 
+  // Listens to metamask for changes about accounts
   const walletListener = () => {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", (accounts) => {

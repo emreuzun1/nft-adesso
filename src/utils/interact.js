@@ -5,6 +5,7 @@ const contractAddress = "0xe6FeCAF35A06F601D8AFAaF52CA6c840B0f3F257";
 
 let provider, signer, contract;
 
+// Checks if the user has metamask
 if (!window.ethereum) {
   console.log("Please install Metamask!");
 } else {
@@ -13,6 +14,7 @@ if (!window.ethereum) {
   contract = new ethers.Contract(contractAddress, adessoNFT.abi, signer);
 }
 
+// Send a request to user for get accounts
 export const getWalletRequest = async () => {
   if (window.ethereum) {
     const accounts = await window.ethereum.request({
@@ -30,6 +32,7 @@ export const getWalletRequest = async () => {
   }
 };
 
+// Returns the address of owned by client
 export const connectWalletRequest = async () => {
   if (window.ethereum) {
     try {
@@ -48,7 +51,8 @@ export const connectWalletRequest = async () => {
   }
 };
 
-export const mint = async (account, amount) => {
+// Mints the amount of NFT
+export const mint = async (amount) => {
   let abi = ["function mint(uint256 _quantity) public payable"];
   let iface = new ethers.utils.Interface(abi);
   const params = {
@@ -83,13 +87,7 @@ export const mint = async (account, amount) => {
   }
 };
 
-export const getBalance = async (address) => {
-  if (window.ethereum) {
-    const response = await contract.balanceOf(address);
-    console.log(ethers.utils.formatUnits(response));
-  }
-};
-
+// Gets the tokens for display the collection of owner
 export const getTokensRequest = async (address) => {
   if (window.ethereum) {
     try {

@@ -13,6 +13,7 @@ function App() {
   const [amount, setAmount] = useState(1);
   const [tokens, setTokens] = useState([]);
 
+  // Gets the tokens and it's urls from pinata
   const getTokens = async () => {
     let tokenURIs = [];
     setTokens(tokenURIs);
