@@ -49,7 +49,7 @@ function App() {
 
   const _mint = async (e) => {
     e.preventDefault();
-    const response = await mint(account, amount);
+    const response = await mint(amount);
     if (response.success) {
       setSnackbar({
         open: true,
