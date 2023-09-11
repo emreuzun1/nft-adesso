@@ -52,7 +52,16 @@ export const connectWalletRequest = async () => {
 };
 
 // Mints the amount of NFT
-export const mint = async (amount) => {
+export const mint = async (address, amount) => {
+  const balance = await getBalance(address);
+  const maxPerWallet = await getMaxPerWallet(address);
+  if (balance + amount > maxPerWallet) {
+    return {
+      success: false,
+      message: "You can not mint more than 5 NFTs.",
+      severity: "error",
+    };
+  }
   let abi = ["function mint(uint256 _quantity) public payable"];
   let iface = new ethers.utils.Interface(abi);
   const params = {
@@ -102,4 +111,24 @@ export const getTokensRequest = async (address) => {
       console.log(err);
     }
   }
+};
+
+export const getTotalSupplyRequest = async () => {
+  const response = await contract.totalSupply();
+  return parseInt(response);
+};
+
+export const getMaxSupplyRequest = async () => {
+  const response = await contract.maxSupply();
+  return parseInt(response);
+};
+
+export const getBalance = async (address) => {
+  const response = await contract.balanceOf(address);
+  return parseInt(response);
+};
+
+export const getMaxPerWallet = async () => {
+  const response = await contract.maxPerWallet();
+  return parseInt(response);
 };

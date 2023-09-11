@@ -1,6 +1,9 @@
+import axios from "axios";
+
 // To get the data from pinata we have to do it this way.
 export const fetchDataFromPinata = async (token) => {
-  const response = await fetch("https://" + token);
-  let data = await response.json();
+  const { data } = await axios.get(
+    "https://ipfs.io/" + token.replace("://", "/")
+  );
   return data;
 };

@@ -1,6 +1,12 @@
 import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import "./App.css";
-import { getTokensRequest, mint } from "./utils/interact";
+import {
+  getMaxSupplyRequest,
+  getTokensRequest,
+  getTotalSupplyRequest,
+  mint,
+} from "./utils/interact";
 import Navbar from "./components/Navbar";
 import { fetchDataFromPinata } from "./utils/fetchFromPinata";
 import NFTListItem from "./components/NFTListItem";
@@ -12,9 +18,11 @@ function App() {
   const { account, setSnackbar } = useContext(DataContext);
   const [amount, setAmount] = useState(1);
   const [tokens, setTokens] = useState([]);
+  const [totalSupply, setTotalSupply] = useState(0);
+  const [maxSupply, setMaxSupply] = useState(0);
 
   // Gets the tokens and it's urls from pinata
-  const getTokens = async () => {
+  const getNfts = async () => {
     let tokenURIs = [];
     setTokens(tokenURIs);
     if (account) {
@@ -28,8 +36,14 @@ function App() {
     }
   };
 
+  const getSupplies = async () => {
+    setTotalSupply(await getTotalSupplyRequest());
+    setMaxSupply(await getMaxSupplyRequest());
+  };
+
   useEffect(() => {
-    getTokens();
+    getNfts();
+    getSupplies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
@@ -49,8 +63,8 @@ function App() {
 
   const _mint = async (e) => {
     e.preventDefault();
-    const response = await mint(amount);
-    if (response.success) {
+    const response = await mint(account, amount);
+    if (response) {
       setSnackbar({
         open: true,
         message: response.message,
@@ -74,6 +88,9 @@ function App() {
             Adesso NFT Gallery
           </Typography>
           <BasicCarousel />
+          <Typography variant="h4" mb={2}>
+            {totalSupply} / {maxSupply}
+          </Typography>
           <Box
             display="flex"
             mt={2}
